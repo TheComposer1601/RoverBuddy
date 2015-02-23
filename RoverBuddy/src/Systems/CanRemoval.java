@@ -2,10 +2,10 @@ package Systems;
 
 import java.util.ArrayList;
 
-import Sensors.LightSystem;
-import Sensors.MovementSystem;
+import Interfaces.LightInterface;
+import Interfaces.MovementInterface;
+import Interfaces.TouchInterface;
 import Sensors.SoundSystem;
-import Sensors.TouchSystem;
 
 /*
 RemoveCan:
@@ -18,13 +18,13 @@ NotifyRemoved:
 	Notify all CanRemovalListeners that can was removed.
  */
 public class CanRemoval extends Thread {
-	MovementSystem move;
-	LightSystem light;
+	MovementInterface move;
+	LightInterface light;
 	SoundSystem sound;
-	TouchSystem touch;
+	TouchInterface touch;
 	private ArrayList<CanRemovalListener> listener = new ArrayList<>();
 	
-	public CanRemoval(MovementSystem move, LightSystem light, SoundSystem sound, TouchSystem touch){
+	public CanRemoval(MovementInterface move, LightInterface light, SoundSystem sound, TouchInterface touch){
 		this.move = move;
 		this.light = light;
 		this.sound = sound;

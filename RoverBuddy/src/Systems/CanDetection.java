@@ -3,8 +3,8 @@ package Systems;
 import java.util.HashSet;
 import java.util.Set;
 
-import Sensors.MovementSystem;
-import Sensors.VisionSystem;
+import Interfaces.MovementInterface;
+import Interfaces.VisionInterface;
 
 /*
  * DetectCan:
@@ -28,12 +28,12 @@ import Sensors.VisionSystem;
  * Add passed in object to list of CanDetectionListeners
  */
 public class CanDetection extends Thread {
-	VisionSystem vision;
-	MovementSystem motor;
+	VisionInterface vision;
+	MovementInterface motor;
 	Set<CanDetectionListener> listeners = new HashSet<>();
 	int canCount = 0;
 	
-	public CanDetection(VisionSystem vision, MovementSystem motor){
+	public CanDetection(VisionInterface vision, MovementInterface motor){
 		this.vision = vision;
 		this.motor = motor;
 	}

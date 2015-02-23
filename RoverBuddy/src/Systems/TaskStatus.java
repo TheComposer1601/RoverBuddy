@@ -2,6 +2,7 @@ package Systems;
 
 import java.util.ArrayList;
 
+import Interfaces.TimeInterface;
 import drivers.RoverBuddy;
 
 
@@ -32,11 +33,11 @@ AddListener:
 
 public class TaskStatus extends Thread {
 	boolean taskComplete = false;
-	TimeSystem timer;
+	TimeInterface timer;
 	RoverBuddy buddy;
 	private ArrayList<TaskStatusListener> listener = new ArrayList<TaskStatusListener>();
 	
-	public TaskStatus(TimeSystem timer, RoverBuddy buddy){
+	public TaskStatus(TimeInterface timer, RoverBuddy buddy){
 		this.timer = timer;
 		this.buddy = buddy;
 	}

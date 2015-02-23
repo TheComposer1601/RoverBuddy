@@ -3,6 +3,8 @@ package Systems;
 import java.util.HashSet;
 import java.util.Set;
 
+import Interfaces.TimeInterface;
+
 
 /*
  * Start:
@@ -26,7 +28,7 @@ import java.util.Set;
  * TimeElapsed
  * Return time currently elapsed
  */
-public class TimeSystem extends Thread {
+public class TimeSystem extends Thread implements TimeInterface{
 	private double time;
 	private double lastTimeSeen;
 	private Set<TimeSystemListener> listeners = new HashSet<>();
