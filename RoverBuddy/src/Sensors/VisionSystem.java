@@ -4,8 +4,8 @@ import Interfaces.VisionInterface;
 
 public class VisionSystem implements VisionInterface{
 	
-	public void DetecCan(){
-		
+	public boolean DetectCan(){
+		return false;
 	}
 
 }

@@ -5,7 +5,13 @@ import Systems.CanRemoval.CanRemovalListener;
 import Systems.TaskStatus;
 import Systems.TaskStatus.TaskStatusListener;
 import Systems.TimeSystem;
+import Systems.TimeSystem.TimeSystemListener;
 
+/*
+ * Port 1 & 2 touch
+ * Port 3 sonic, sight
+ * port 4 light
+ */
 public class RoverBuddy {
 	
 	private int cansRemoved;
@@ -44,6 +50,13 @@ public class RoverBuddy {
 			
 		}
 		
+	};
+	
+	public TimeSystemListener timeListen = new TimeSystemListener(){
+		@Override
+		public double NotifyTimeFinished() {
+			return 0;
+		}
 	};
 	
 	public RoverBuddy(){

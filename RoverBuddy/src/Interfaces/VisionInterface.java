@@ -1,6 +1,6 @@
 package Interfaces;
 
 public interface VisionInterface {
-	public void DetecCan();
+	public boolean DetectCan();
 
 }

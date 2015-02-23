@@ -43,7 +43,7 @@ public class TaskStatus extends Thread {
 	
 	@Override
 	public void run(){
-		while(!timer.goneOver() && !taskComplete){
+		while(!timer.TimeOver() && !taskComplete){
 			DetermineComplete();
 		}
 		if(taskComplete){
@@ -58,7 +58,7 @@ public class TaskStatus extends Thread {
 		if(buddy.canRemovedCount() == 3){
 			taskComplete = true;
 		}
-		else if(timer.goneOver()){
+		else if(timer.TimeOver()){
 			taskComplete = false;
 		}
 	}
