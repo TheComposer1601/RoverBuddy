@@ -41,12 +41,12 @@ public class CanDetection extends Thread {
 	public void DetectCan(){
 		if(vision.DetectCan()){
 			canCount++;
-			NotifyDetected();
+			myNotifyDetected();
 			this.pause();
 		}
 	}
 	
-	public void NotifyDetected(){
+	public void myNotifyDetected(){
 		for(CanDetectionListener listen : listeners){
 			listen.NotifyDetected();
 		}
@@ -55,13 +55,11 @@ public class CanDetection extends Thread {
 	private boolean paused = false;
 	public void pause(){
 		paused = true;
-		while(paused){
-			Thread.yield();
-		}
-		this.run();
 	}
 	
 	public void resume(){
+		vision.startLooking();
+		motor.Rotate();
 		paused = false;
 	}
 
@@ -69,7 +67,10 @@ public class CanDetection extends Thread {
 	public void run(){
 		motor.Rotate();
 		while(canCount < 3){
-			DetectCan();
+			if(paused)
+				Thread.yield();
+			else
+				DetectCan();
 		}
 	}
 	

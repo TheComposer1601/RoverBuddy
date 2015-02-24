@@ -65,6 +65,7 @@ public class CanRemoval extends Thread {
 			if(paused)
 				Thread.yield();
 			else{
+				System.out.println("Removing Can");
 				try {
 					RemoveCan();
 				} catch (InterruptedException e) {
@@ -89,6 +90,7 @@ public class CanRemoval extends Thread {
 	}
 	
 	public void resume(){
+		System.out.println("Remove Resuming");
 		paused = false;
 	}
 	

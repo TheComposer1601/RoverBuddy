@@ -1,6 +1,7 @@
 package SensorWrapperInterface;
 
-public abstract class UltraSonicInterface {
-	public abstract boolean GetDistance();
+public interface UltraSonicInterface {
+	public boolean GetDistance();
+	public void startLooking();
 
 }
