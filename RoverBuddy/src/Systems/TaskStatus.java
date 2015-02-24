@@ -42,6 +42,10 @@ public class TaskStatus extends Thread {
 		this.buddy = buddy;
 	}
 	
+	public boolean isFinished(){
+		return taskComplete;
+	}
+	
 	@Override
 	public void run(){
 		while(!timer.TimeOver() && !taskComplete){
@@ -56,7 +60,7 @@ public class TaskStatus extends Thread {
 	}
 	
 	public void DetermineComplete(){
-		if(buddy.canRemovedCount() == 3){
+		if(buddy.objectiveMet()){
 			taskComplete = true;
 		}
 		else if(timer.TimeOver()){

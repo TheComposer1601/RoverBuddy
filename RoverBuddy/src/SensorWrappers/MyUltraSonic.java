@@ -17,7 +17,7 @@ public class MyUltraSonic extends UltraSonicInterface{
 	
 	public UltrasonicSensor sense;
 	
-	MyUltraSonic(int port) {
+	public MyUltraSonic(int port) {
 		super(port);
 		sense = new UltrasonicSensor(ports.get(port));
 	}
