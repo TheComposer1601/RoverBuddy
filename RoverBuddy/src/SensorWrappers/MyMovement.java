@@ -4,7 +4,7 @@ import lejos.nxt.MotorPort;
 import SensorWrapperInterface.MovementLejosInterface;
 
 public class MyMovement implements MovementLejosInterface{
-	MotorPort motor;
+	private MotorPort motor;
 	public MyMovement(MotorPort port){
 		motor = port;
 	}

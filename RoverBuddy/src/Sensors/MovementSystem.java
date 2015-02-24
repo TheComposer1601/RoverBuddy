@@ -1,11 +1,11 @@
 package Sensors;
 
-import lejos.nxt.MotorPort;
+import SensorWrappers.MyMovement;
 import Interfaces.MovementInterface;
 
 public class MovementSystem implements MovementInterface{
-	private MotorPort motor1;
-	private MotorPort motor2;
+	private MyMovement motor1;
+	private MyMovement motor2;
 	public void Rotate(){
 		motor1.controlMotor(65, 1);
 		motor2.controlMotor(65, 2);
