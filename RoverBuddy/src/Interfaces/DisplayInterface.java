@@ -1,5 +1,5 @@
 package Interfaces;
 
 public interface DisplayInterface {
-	public void Display();
+	public void Display(String message);
 }

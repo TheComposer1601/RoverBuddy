@@ -1,0 +1,11 @@
+package SensorWrappers;
+
+import lejos.nxt.SensorPort;
+import lejos.nxt.TouchSensor;
+
+public class MyTouch {
+	private TouchSensor sensor;
+	public MyTouch(SensorPort port){
+		sensor = new TouchSensor(port);
+	}
+}
