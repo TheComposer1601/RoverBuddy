@@ -9,7 +9,7 @@ public class SoundSystem implements SoundInterface{
 	}
 	public void PlaySuccess(){
 		for(int i = 0; i < 3; i++){
-			Sound.playTone(4000, 15);
+			Sound.playTone(5000, 15);
 			try {
 				wait(150);
 			} catch (InterruptedException e) {

@@ -63,7 +63,7 @@ public class TaskStatus extends Thread {
 		if(buddy.objectiveMet()){
 			taskComplete = true;
 		}
-		else if(timer.TimeOver()){
+		else{
 			taskComplete = false;
 		}
 	}

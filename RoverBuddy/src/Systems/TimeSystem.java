@@ -32,17 +32,17 @@ public class TimeSystem extends Thread implements TimeInterface{
 	private double time;
 	private double lastTimeSeen;
 	private List<TimeSystemListener> listeners = new ArrayList<>();
-	private double timeLimit = 1.00;
+	private double timeLimit = 10000.00;
 	
 	@Override
 	public void run(){
 		time = 0;
 		lastTimeSeen = System.currentTimeMillis();
-		while(time < 1){
-			time = System.currentTimeMillis() - lastTimeSeen;
+		while(time < 10000){
+			time += System.currentTimeMillis() - lastTimeSeen;
 			lastTimeSeen = System.currentTimeMillis();
 		}
-		
+		System.out.println("Finished");
 		FinishTime();
 	}
 	

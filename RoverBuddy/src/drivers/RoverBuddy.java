@@ -33,6 +33,7 @@ public class RoverBuddy {
 		@Override
 		public void NotifySuccess() {
 			this.OutputSuccess();
+			finished = true;
 		}
 		
 		public void OutputSuccess(){
@@ -47,6 +48,7 @@ public class RoverBuddy {
 		public void NotifyFailure() {
 			display.Display("We failed. Sorry :(");
 			sound.PlayFailure();
+			finished = true;
 		}
 	};
 	
@@ -80,10 +82,8 @@ public class RoverBuddy {
 	public TimeSystemListener timeListen = new TimeSystemListener(){
 		@Override
 		public double NotifyTimeFinished() {
-			task.DetermineComplete();
 			canDet.pause();
 			canRemove.pause();
-			finished = true;
 			return 0;
 		}
 	};
@@ -125,6 +125,7 @@ public class RoverBuddy {
 		sound = new SoundSystem();
 		
 		timer = new TimeSystem();
+		timer.AddListener(timeListen);
 		timer.start();
 		
 		task = new TaskStatus(timer, this);
@@ -140,6 +141,7 @@ public class RoverBuddy {
 		canDet.AddListener(canDetListen);
 		canDet.start();
 
+		
 	}
 
 	private boolean finished = false;
@@ -152,6 +154,8 @@ public class RoverBuddy {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 	
 	public int canRemovedCount(){
