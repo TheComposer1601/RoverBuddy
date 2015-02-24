@@ -1,7 +1,7 @@
 package Systems;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import Interfaces.TimeInterface;
 
@@ -31,7 +31,7 @@ import Interfaces.TimeInterface;
 public class TimeSystem extends Thread implements TimeInterface{
 	private double time;
 	private double lastTimeSeen;
-	private Set<TimeSystemListener> listeners = new HashSet<>();
+	private List<TimeSystemListener> listeners = new ArrayList<>();
 	private double timeLimit = 1.00;
 	
 	@Override

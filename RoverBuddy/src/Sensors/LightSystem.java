@@ -1,11 +1,11 @@
 package Sensors;
 
 import Interfaces.LightInterface;
-import SensorWrappers.MyLight;
+import SensorWrapperInterface.LightSensorInterface;
 
 public class LightSystem extends Thread implements LightInterface{
-	private MyLight lightSensor;
-	public LightSystem(MyLight light){
+	private LightSensorInterface lightSensor;
+	public LightSystem(LightSensorInterface light){
 		lightSensor = light;
 	}
 	public boolean InBounds(){

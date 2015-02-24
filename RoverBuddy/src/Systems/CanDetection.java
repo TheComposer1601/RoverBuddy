@@ -1,7 +1,7 @@
 package Systems;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import Interfaces.MovementInterface;
 import Interfaces.VisionInterface;
@@ -30,7 +30,7 @@ import Interfaces.VisionInterface;
 public class CanDetection extends Thread {
 	VisionInterface vision;
 	MovementInterface motor;
-	Set<CanDetectionListener> listeners = new HashSet<>();
+	List<CanDetectionListener> listeners = new ArrayList<>();
 	int canCount = 0;
 	
 	public CanDetection(VisionInterface vision, MovementInterface motor){

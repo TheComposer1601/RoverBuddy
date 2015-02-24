@@ -1,6 +1,10 @@
 package drivers;
 
+import lejos.nxt.MotorPort;
+import lejos.nxt.SensorPort;
 import SensorWrappers.MyLight;
+import SensorWrappers.MyMovement;
+import SensorWrappers.MyTouch;
 import SensorWrappers.MyUltraSonic;
 import Sensors.DisplaySystem;
 import Sensors.LightSystem;
@@ -113,10 +117,10 @@ public class RoverBuddy {
 	private CanRemoval canRemove;
 	
 	public RoverBuddy(){
-		vision = new VisionSystem(new MyUltraSonic(3));
-		move = new MovementSystem();
-		light = new LightSystem(new MyLight(4));
-		touch = new TouchSystem();
+		vision = new VisionSystem(new MyUltraSonic(SensorPort.S3));
+		move = new MovementSystem(new MyMovement(MotorPort.A), new MyMovement(MotorPort.B));
+		light = new LightSystem(new MyLight(SensorPort.S4));
+		touch = new TouchSystem(new MyTouch(SensorPort.S1), new MyTouch(SensorPort.S2));
 		display = new DisplaySystem();
 		sound = new SoundSystem();
 		

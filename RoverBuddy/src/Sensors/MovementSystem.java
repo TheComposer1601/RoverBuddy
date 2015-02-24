@@ -1,11 +1,15 @@
 package Sensors;
 
-import SensorWrappers.MyMovement;
 import Interfaces.MovementInterface;
+import SensorWrapperInterface.MovementLejosInterface;
 
 public class MovementSystem implements MovementInterface{
-	private MyMovement motor1;
-	private MyMovement motor2;
+	private MovementLejosInterface motor1;
+	private MovementLejosInterface motor2;
+	public MovementSystem(MovementLejosInterface m1, MovementLejosInterface m2){
+		motor1 = m1;
+		motor2 = m2;
+	}
 	public void Rotate(){
 		motor1.controlMotor(65, 1);
 		motor2.controlMotor(65, 2);
