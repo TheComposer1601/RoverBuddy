@@ -50,4 +50,4 @@ Temporary Items
 *.snap
 *.index
 *.xmi
-.metadata/.plugins/org.eclipse.core.resources/.history/71/a011c6a7e8bb00141159a7c2a17ec6d3
+.metadata/*
