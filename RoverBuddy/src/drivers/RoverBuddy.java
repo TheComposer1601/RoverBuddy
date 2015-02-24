@@ -1,5 +1,6 @@
 package drivers;
 
+import SensorWrappers.MyLight;
 import SensorWrappers.MyUltraSonic;
 import Sensors.DisplaySystem;
 import Sensors.LightSystem;
@@ -9,6 +10,7 @@ import Sensors.TouchSystem;
 import Sensors.VisionSystem;
 import Systems.CanDetection;
 import Systems.CanDetection.CanDetectionListener;
+import Systems.CanRemoval;
 import Systems.CanRemoval.CanRemovalListener;
 import Systems.TaskStatus;
 import Systems.TaskStatus.TaskStatusListener;
@@ -26,21 +28,30 @@ public class RoverBuddy {
 
 		@Override
 		public void NotifySuccess() {
-			
+			this.OutputSuccess();
+		}
+		
+		public void OutputSuccess(){
+			display.Display("Finished in " + timer.timeElapsed() + " seconds");
+			move.MoveForward();
+			canDet.pause();
+			canRemove.pause();
+			sound.PlaySuccess();		
 		}
 
 		@Override
 		public void NotifyFailure() {
-			
+			display.Display("We failed. Sorry :(");
+			sound.PlayFailure();
 		}
-		
 	};
 	
 	private CanDetectionListener canDetListen = new CanDetectionListener(){
 
 		@Override
 		public void NotifyDetected() {
-			
+			canDet.pause();
+			canRemove.resume();
 		}
 		
 	};
@@ -49,12 +60,15 @@ public class RoverBuddy {
 
 		@Override
 		public void NotifyFinishedAndRemoved() {
-			
+			canRemove.pause();
+			canDet.resume();
+			cansRemoved ++;
 		}
 
 		@Override
 		public void NotifyFinishedNotRemoved() {
-			
+			canRemove.pause();
+			canDet.resume();
 		}
 		
 	};
@@ -62,6 +76,10 @@ public class RoverBuddy {
 	public TimeSystemListener timeListen = new TimeSystemListener(){
 		@Override
 		public double NotifyTimeFinished() {
+			task.DetermineComplete();
+			canDet.pause();
+			canRemove.pause();
+			finished = true;
 			return 0;
 		}
 	};
@@ -86,33 +104,48 @@ public class RoverBuddy {
  * port 4 light
  */
 	
-	VisionSystem vision;
-	TouchSystem touch;
-	MovementSystem move;
-	LightSystem light;
-	DisplaySystem display;
-	SoundSystem sound;
+	private VisionSystem vision;
+	private TouchSystem touch;
+	private MovementSystem move;
+	private LightSystem light;
+	private DisplaySystem display;
+	private SoundSystem sound;
+	private CanRemoval canRemove;
 	
 	public RoverBuddy(){
 		vision = new VisionSystem(new MyUltraSonic(3));
 		move = new MovementSystem();
+		light = new LightSystem(new MyLight(4));
+		touch = new TouchSystem();
+		display = new DisplaySystem();
+		sound = new SoundSystem();
+		
 		timer = new TimeSystem();
+		timer.start();
+		
 		task = new TaskStatus(timer, this);
 		task.AddListener(taskListen);
-		timer.start();
 		task.start();
+
+		canRemove = new CanRemoval(move, light, sound, touch);
+		canRemove.addListener(removeListen);
+		canRemove.start();
+		canRemove.pause();
+		
 		canDet = new CanDetection(vision, move);
+		canDet.AddListener(canDetListen);
+		canDet.start();
+
 	}
-	
+
+	private boolean finished = false;
 	public void run(){
-		boolean finished = false;
 		while(!finished){
 			Thread.yield();
 		}
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -125,43 +158,6 @@ public class RoverBuddy {
 		cansRemoved++;
 	}
 	
-	public void Setup(){
-		
-	}
-	
-	public void OutputSuccess(){
-		
-	}
-	
-	public void OutputFailure(){
-		
-	}
-	
-	public void Start(){
-		
-	}
-	
-	public void NotifySuccess(){
-		
-	}
-	
-	public void NotifyFailure(){
-		
-	}
-	
-	public void NotifyDetected(){
-		
-	}
-	
-	public void NotifyFinishedAndRemoved(){
-		
-	}
-	
-	public void NotifyFinishedNotRemoved(){
-		
-	}
-
-
 	public boolean objectiveMet() {
 		return (canRemovedCount() == 3);
 	}

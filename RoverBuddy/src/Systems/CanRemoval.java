@@ -18,20 +18,25 @@ NotifyRemoved:
 	Notify all CanRemovalListeners that can was removed.
  */
 public class CanRemoval extends Thread {
-	MovementInterface move;
-	LightInterface light;
-	SoundSystem sound;
-	TouchInterface touch;
+
+	private boolean paused;
+	private MovementInterface move;
+	private LightInterface light;
+	private SoundSystem sound;
+	private TouchInterface touch;
 	private ArrayList<CanRemovalListener> listener = new ArrayList<>();
+	private boolean finished = false;
 	
 	public CanRemoval(MovementInterface move, LightInterface light, SoundSystem sound, TouchInterface touch){
 		this.move = move;
 		this.light = light;
 		this.sound = sound;
 		this.touch = touch;
+		paused = true;
 	}
 	
 	//TODO find out if InterruptedException is bad or not.
+	//MEH
 	public void RemoveCan() throws InterruptedException{
 		move.MoveForward();
 		boolean foundCan = false;
@@ -51,15 +56,22 @@ public class CanRemoval extends Thread {
 		for(CanRemovalListener listen: listener){
 			listen.NotifyFinishedAndRemoved();
 		}
+		this.pause();
 	}
 	
 	@Override
 	public void run(){
-		try {
-			RemoveCan();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		while(!finished){
+			if(paused)
+				Thread.yield();
+			else{
+				try {
+					RemoveCan();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				paused = true;
+			}
 		}
 	}
 	
@@ -70,5 +82,17 @@ public class CanRemoval extends Thread {
 	public interface CanRemovalListener {
 		public void NotifyFinishedAndRemoved();
 		public void NotifyFinishedNotRemoved();
+	}
+
+	public void pause() {
+		paused = true;
+	}
+	
+	public void resume(){
+		paused = false;
+	}
+	
+	public void finish(){
+		finished = true;
 	}
 }

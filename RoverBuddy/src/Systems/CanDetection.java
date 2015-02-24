@@ -52,14 +52,17 @@ public class CanDetection extends Thread {
 		}
 	}
 	
+	private boolean paused = false;
 	public void pause(){
-		while(true){
+		paused = true;
+		while(paused){
 			Thread.yield();
 		}
+		this.run();
 	}
 	
 	public void resume(){
-		this.run();
+		paused = false;
 	}
 
 	@Override
