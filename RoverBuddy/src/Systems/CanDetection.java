@@ -59,9 +59,6 @@ public class CanDetection extends Thread {
 	}
 	
 	public void resume(){
-		System.out.println("resume vision");
-		vision.startLooking();
-		System.out.println("Motor rotates.");
 		motor.Rotate();
 		paused = false;
 	}
