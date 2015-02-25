@@ -32,6 +32,7 @@ public class CanDetection extends Thread {
 	MovementInterface motor;
 	List<CanDetectionListener> listeners = new ArrayList<>();
 	int canCount = 0;
+	private boolean finished = false;
 	
 	public CanDetection(VisionInterface vision, MovementInterface motor){
 		this.vision = vision;
@@ -58,7 +59,9 @@ public class CanDetection extends Thread {
 	}
 	
 	public void resume(){
+		System.out.println("resume vision");
 		vision.startLooking();
+		System.out.println("Motor rotates.");
 		motor.Rotate();
 		paused = false;
 	}
@@ -66,12 +69,16 @@ public class CanDetection extends Thread {
 	@Override
 	public void run(){
 		motor.Rotate();
-		while(canCount < 3){
+		while(canCount < 3 && !finished){
 			if(paused)
 				Thread.yield();
 			else
 				DetectCan();
 		}
+	}
+	
+	public void Stop(){
+		finished = true;
 	}
 	
 	public void AddListener(CanDetectionListener listen){

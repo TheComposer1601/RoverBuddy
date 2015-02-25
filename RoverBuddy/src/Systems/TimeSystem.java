@@ -38,7 +38,7 @@ public class TimeSystem extends Thread implements TimeInterface{
 	public void run(){
 		time = 0;
 		lastTimeSeen = System.currentTimeMillis();
-		while(time < 10000){
+		while(time < 10000 && !finished){
 			time += System.currentTimeMillis() - lastTimeSeen;
 			lastTimeSeen = System.currentTimeMillis();
 		}
@@ -46,6 +46,12 @@ public class TimeSystem extends Thread implements TimeInterface{
 		FinishTime();
 	}
 	
+	private boolean finished = false;
+	
+	public void Stop(){
+		finished = true;
+	}
+
 	public void FinishTime(){
 		for(TimeSystemListener listen: listeners){
 			listen.NotifyTimeFinished();

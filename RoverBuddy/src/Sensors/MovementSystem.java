@@ -26,7 +26,7 @@ public class MovementSystem implements MovementInterface{
 	}
 	
 	public void Backup(){
-		motor1.controlMotor(65, 2);
-		motor2.controlMotor(65, 2);
+		motor1.controlMotor(90, 2);
+		motor2.controlMotor(90, 2);
 	}
 }

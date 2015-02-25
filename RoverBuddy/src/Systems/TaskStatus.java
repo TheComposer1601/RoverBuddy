@@ -48,7 +48,7 @@ public class TaskStatus extends Thread {
 	
 	@Override
 	public void run(){
-		while(!timer.TimeOver() && !taskComplete){
+		while(!timer.TimeOver() && !taskComplete && !finished){
 			DetermineComplete();
 		}
 		if(taskComplete){
@@ -57,6 +57,12 @@ public class TaskStatus extends Thread {
 		else{
 			NotifyFailure();
 		}
+	}
+	
+	private boolean finished = false;
+	
+	public void Stop(){
+		finished = true;
 	}
 	
 	public void DetermineComplete(){

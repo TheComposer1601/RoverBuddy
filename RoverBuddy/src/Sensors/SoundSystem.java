@@ -11,7 +11,7 @@ public class SoundSystem implements SoundInterface{
 		for(int i = 0; i < 3; i++){
 			Sound.playTone(5000, 15);
 			try {
-				wait(150);
+				Thread.sleep(350);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -33,6 +33,7 @@ public class RoverBuddy {
 		@Override
 		public void NotifySuccess() {
 			this.OutputSuccess();
+			finished = true;
 		}
 		
 		public void OutputSuccess(){
@@ -40,18 +41,19 @@ public class RoverBuddy {
 			move.MoveForward();
 			canDet.pause();
 			canRemove.pause();
-			sound.PlaySuccess();		
+			sound.PlaySuccess();
+			finished = true;
 		}
 
 		@Override
 		public void NotifyFailure() {
 			display.Display("We failed. Sorry :(");
 			sound.PlayFailure();
+			finished = true;
 		}
 	};
 	
 	private CanDetectionListener canDetListen = new CanDetectionListener(){
-
 		@Override
 		public void NotifyDetected() {
 			System.out.println("Found Can");
@@ -59,24 +61,25 @@ public class RoverBuddy {
 			System.out.println("Remove starting");
 			canRemove.resume();
 		}
-		
 	};
 	
 	private CanRemovalListener removeListen = new CanRemovalListener(){
-
 		@Override
 		public void NotifyFinishedAndRemoved() {
+			System.out.println("Finished and removed");
 			canRemove.pause();
+			System.out.println("CanDet resuming");
 			canDet.resume();
 			cansRemoved ++;
 		}
 
 		@Override
 		public void NotifyFinishedNotRemoved() {
+			System.out.println("Found line, no can.");
 			canRemove.pause();
+			System.out.println("CanDet resuming");
 			canDet.resume();
 		}
-		
 	};
 	
 	public TimeSystemListener timeListen = new TimeSystemListener(){
@@ -141,19 +144,30 @@ public class RoverBuddy {
 		canDet = new CanDetection(vision, move);
 		canDet.AddListener(canDetListen);
 		canDet.start();
-
 	}
 
 	private boolean finished = false;
 	public void run(){
 		while(!finished){
+			System.out.println("Can Removed Count: " + canRemovedCount());
 			Thread.yield();
 		}
 		try {
-			Thread.sleep(2000);
+			System.out.println("Sleeping.....");
+			System.out.println("Can Removed Count: " + canRemovedCount());
+			Thread.sleep(6000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Can Removed Count: " + canRemovedCount());
+		EndAllThreads();
+	}
+	
+	private void EndAllThreads(){
+		canDet.Stop();
+		canRemove.Stop();
+		timer.Stop();
+		task.Stop();
 	}
 	
 	public int canRemovedCount(){

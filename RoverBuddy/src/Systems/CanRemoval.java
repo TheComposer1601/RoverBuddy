@@ -50,11 +50,20 @@ public class CanRemoval extends Thread {
 		move.Stop();
 		if(foundCan)
 			NotifyRemoved();
+		else
+			NotifyFailed();
+	}
+	
+	private void NotifyFailed(){
+		for(CanRemovalListener listen: listener){
+			listen.NotifyFinishedAndRemoved();
+		}
+		this.pause();
 	}
 	
 	public void NotifyRemoved(){
 		for(CanRemovalListener listen: listener){
-			listen.NotifyFinishedAndRemoved();
+			listen.NotifyFinishedNotRemoved();
 		}
 		this.pause();
 	}
@@ -65,7 +74,6 @@ public class CanRemoval extends Thread {
 			if(paused)
 				Thread.yield();
 			else{
-				System.out.println("Removing Can");
 				try {
 					RemoveCan();
 				} catch (InterruptedException e) {
@@ -90,11 +98,10 @@ public class CanRemoval extends Thread {
 	}
 	
 	public void resume(){
-		System.out.println("Remove Resuming");
 		paused = false;
 	}
 	
-	public void finish(){
+	public void Stop(){
 		finished = true;
 	}
 }
