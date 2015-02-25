@@ -141,7 +141,7 @@ public class RoverBuddy {
 		canRemove.start();
 		canRemove.pause();
 		
-		canDet = new CanDetection(vision, move);
+		canDet = new CanDetection(vision, move, this);
 		canDet.AddListener(canDetListen);
 		canDet.start();
 	}
