@@ -2,6 +2,8 @@ package drivers;
 
 import lejos.nxt.MotorPort;
 import lejos.nxt.SensorPort;
+import lejos.nxt.Sound;
+import lejos.util.Delay;
 import SensorWrappers.MyLight;
 import SensorWrappers.MyMovement;
 import SensorWrappers.MyTouch;
@@ -37,18 +39,18 @@ public class RoverBuddy {
 		}
 		
 		public void OutputSuccess(){
+			sound.PlaySuccess();
 			display.Display("Finished in " + timer.timeElapsed() + " seconds");
 			move.MoveForward();
 			canDet.pause();
 			canRemove.pause();
-			sound.PlaySuccess();
 			finished = true;
 		}
 
 		@Override
 		public void NotifyFailure() {
-			display.Display("We failed. Sorry :(");
 			sound.PlayFailure();
+			display.Display("We failed. Sorry :(");
 			finished = true;
 		}
 	};
@@ -66,19 +68,30 @@ public class RoverBuddy {
 	private CanRemovalListener removeListen = new CanRemovalListener(){
 		@Override
 		public void NotifyFinishedAndRemoved() {
-			System.out.println("Finished and removed");
 			canRemove.pause();
-			System.out.println("CanDet resuming");
 			canDet.resume();
 			cansRemoved ++;
 		}
 
 		@Override
 		public void NotifyFinishedNotRemoved() {
-			System.out.println("Found line, no can.");
 			canRemove.pause();
-			System.out.println("CanDet resuming");
 			canDet.resume();
+		}
+		
+		public void NotifyBackup(boolean foundCan){
+			move.Backup();
+			double time = 0;
+			double currentTime = System.currentTimeMillis();
+			Delay.msDelay(500);
+			while(time < 3000){
+				Sound.beep();
+				Delay.msDelay(500);
+				time += System.currentTimeMillis() - currentTime;
+			}
+			move.Stop();
+			System.out.println("Finish Backup");
+			canRemove.finishBackup();
 		}
 	};
 	
@@ -149,13 +162,12 @@ public class RoverBuddy {
 	private boolean finished = false;
 	public void run(){
 		while(!finished){
-			System.out.println("Can Removed Count: " + canRemovedCount());
 			Thread.yield();
 		}
 		try {
 			System.out.println("Sleeping.....");
 			System.out.println("Can Removed Count: " + canRemovedCount());
-			Thread.sleep(6000);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

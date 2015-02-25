@@ -2,6 +2,7 @@ package Systems;
 
 import java.util.ArrayList;
 
+import lejos.util.Delay;
 import Interfaces.LightInterface;
 import Interfaces.MovementInterface;
 import Interfaces.TouchInterface;
@@ -26,6 +27,7 @@ public class CanRemoval extends Thread {
 	private TouchInterface touch;
 	private ArrayList<CanRemovalListener> listener = new ArrayList<>();
 	private boolean finished = false;
+	private boolean foundCan = false;
 	
 	public CanRemoval(MovementInterface move, LightInterface light, SoundSystem sound, TouchInterface touch){
 		this.move = move;
@@ -39,19 +41,23 @@ public class CanRemoval extends Thread {
 	//MEH
 	public void RemoveCan() throws InterruptedException{
 		move.MoveForward();
-		boolean foundCan = false;
 		while(light.InBounds()){
-			if(!foundCan && touch.DetectTouch()){
-				foundCan = true;
+			if(touch.DetectTouch()){
+				sound.PlayTouch();
+				if(!foundCan){
+					System.out.println("FoundCan true");
+					foundCan = true;
+				}
 			}
 		}
-		move.Backup();
-		Thread.sleep(1000L);
-		move.Stop();
-		if(foundCan)
-			NotifyRemoved();
-		else
-			NotifyFailed();
+		this.NotifyStartBackup();
+	}
+	
+	private void NotifyStartBackup(){
+		for(CanRemovalListener listen : listener){
+			listen.NotifyBackup(foundCan);
+		}
+		this.pause();
 	}
 	
 	private void NotifyFailed(){
@@ -90,6 +96,7 @@ public class CanRemoval extends Thread {
 
 	public interface CanRemovalListener {
 		public void NotifyFinishedAndRemoved();
+		public void NotifyBackup(boolean foundCan);
 		public void NotifyFinishedNotRemoved();
 	}
 
@@ -103,5 +110,15 @@ public class CanRemoval extends Thread {
 	
 	public void Stop(){
 		finished = true;
+	}
+
+	public void finishBackup() {
+		if(foundCan){
+			foundCan = false;
+			NotifyRemoved();
+		}
+		else{
+			NotifyFailed();
+		}
 	}
 }
