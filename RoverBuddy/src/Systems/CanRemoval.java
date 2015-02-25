@@ -62,14 +62,14 @@ public class CanRemoval extends Thread {
 	
 	private void NotifyFailed(){
 		for(CanRemovalListener listen: listener){
-			listen.NotifyFinishedAndRemoved();
+			listen.NotifyFinishedNotRemoved();
 		}
 		this.pause();
 	}
 	
 	public void NotifyRemoved(){
 		for(CanRemovalListener listen: listener){
-			listen.NotifyFinishedNotRemoved();
+			listen.NotifyFinishedAndRemoved();
 		}
 		this.pause();
 	}
@@ -115,9 +115,11 @@ public class CanRemoval extends Thread {
 	public void finishBackup() {
 		if(foundCan){
 			foundCan = false;
+			System.out.println("Removed");
 			NotifyRemoved();
 		}
 		else{
+			System.out.println("Failed");
 			NotifyFailed();
 		}
 	}

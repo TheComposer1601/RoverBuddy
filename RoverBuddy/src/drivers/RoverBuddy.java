@@ -80,18 +80,22 @@ public class RoverBuddy {
 		}
 		
 		public void NotifyBackup(boolean foundCan){
-			move.Backup();
-			double time = 0;
-			double currentTime = System.currentTimeMillis();
-			Delay.msDelay(500);
-			while(time < 3000){
-				Sound.beep();
-				Delay.msDelay(500);
-				time += System.currentTimeMillis() - currentTime;
+			try{
+				move.Backup();
+				double time = 0;
+				double currentTime = System.currentTimeMillis();
+				while(time < 3000){
+					Sound.beep();
+					Thread.sleep(500);
+					time += System.currentTimeMillis() - currentTime;
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} finally{
+				move.Stop();
+				System.out.println("Finish Backup");
+				canRemove.finishBackup();
 			}
-			move.Stop();
-			System.out.println("Finish Backup");
-			canRemove.finishBackup();
 		}
 	};
 	
@@ -165,13 +169,11 @@ public class RoverBuddy {
 			Thread.yield();
 		}
 		try {
-			System.out.println("Sleeping.....");
 			System.out.println("Can Removed Count: " + canRemovedCount());
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Can Removed Count: " + canRemovedCount());
 		EndAllThreads();
 	}
 	

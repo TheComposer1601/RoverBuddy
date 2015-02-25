@@ -21,8 +21,8 @@ public class MovementSystem implements MovementInterface{
 	}
 	
 	public void MoveForward(){
-		motor1.controlMotor(85, 1);
-		motor2.controlMotor(85, 1);
+		motor1.controlMotor(80, 1);
+		motor2.controlMotor(80, 1);
 	}
 	
 	public void Backup(){

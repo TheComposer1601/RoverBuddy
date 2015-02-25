@@ -21,7 +21,7 @@ public class MyUltraSonic implements UltraSonicInterface{
 	public boolean GetDistance() {
 		boolean inRange = false;
 		this.ping();
-		if(sense.getDistance() < 45){
+		if(sense.getDistance() < 70){
 			inRange = true;
 		}
 		return inRange;
