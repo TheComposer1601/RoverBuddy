@@ -13,18 +13,17 @@ public class MyUltraSonic implements UltraSonicInterface{
 		sense.continuous();
 	}
 	
-	public void startLooking(){
-		sense.continuous();
+	public void ping(){
+		sense.ping();
 	}
 	
 	@Override
 	public boolean GetDistance() {
 		boolean inRange = false;
-		int distance = sense.getDistance();
+		this.ping();
 		if(sense.getDistance() < 45){
 			inRange = true;
 		}
 		return inRange;
 	}
-
 }

@@ -14,13 +14,9 @@ public class VisionSystem implements VisionInterface{
 		sense = sonicSense;
 	}
 	
-	@Override
-	public void startLooking(){
-		sense.startLooking();
-	}
-	
 	public boolean DetectCan(){
 		boolean detect = false;
+		sense.ping();
 		if(sense.GetDistance()){
 			detect = true;
 		}
