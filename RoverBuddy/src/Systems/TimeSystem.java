@@ -32,15 +32,14 @@ public class TimeSystem extends Thread implements TimeInterface{
 	private double time;
 	private double lastTimeSeen;
 	private List<TimeSystemListener> listeners = new ArrayList<>();
-	private static final double timeLimit = 60000.00;	
 	private boolean finishThread = false;
-
+	private static final double TIME_LIMIT = 10000.00;
 	
 	@Override
 	public void run(){
 		time = 0;
 		lastTimeSeen = System.currentTimeMillis();
-		while(time < timeLimit && !finishThread){
+		while(time < TIME_LIMIT && !finishThread){
 			time += System.currentTimeMillis() - lastTimeSeen;
 			lastTimeSeen = System.currentTimeMillis();
 		}
@@ -64,7 +63,7 @@ public class TimeSystem extends Thread implements TimeInterface{
 	
 	public boolean TimeOver(){
 		boolean over = false;
-		if (time >= timeLimit){
+		if (time >= TIME_LIMIT){
 			over = true;
 		}
 		return over;
@@ -75,6 +74,6 @@ public class TimeSystem extends Thread implements TimeInterface{
 	}
 
 	public interface TimeSystemListener {
-		public double NotifyTimeFinished();
+		public void NotifyTimeFinished();
 	}
 }
