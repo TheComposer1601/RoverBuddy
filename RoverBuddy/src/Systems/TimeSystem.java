@@ -75,6 +75,6 @@ public class TimeSystem extends Thread implements TimeInterface{
 	}
 
 	public interface TimeSystemListener {
-		public double NotifyTimeFinished();
+		public void NotifyTimeFinished();
 	}
 }

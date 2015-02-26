@@ -2,8 +2,6 @@ package drivers;
 
 import lejos.nxt.MotorPort;
 import lejos.nxt.SensorPort;
-import lejos.nxt.Sound;
-import lejos.util.Delay;
 import SensorWrappers.MyLight;
 import SensorWrappers.MyMovement;
 import SensorWrappers.MyTouch;
@@ -29,28 +27,45 @@ public class RoverBuddy {
 	TaskStatus task;
 	TimeSystem timer;
 	CanDetection canDet;
+	private static final long BACKUP_TIME = 3000;
+	private static final long BACKUP_BEEP_INTERVAL = 500;
+	private static final long ESCAPE_TIME = 6000;
+	private static final long WAIT_TIME = 3000;
+	private static final int NUM_CAN_GOAL = 3;
 	
 	private TaskStatusListener taskListen = new TaskStatusListener(){
 
 		@Override
 		public void NotifySuccess() {
-			this.OutputSuccess();
-			finished = true;
+			try {
+				this.OutputSuccess();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		
-		public void OutputSuccess(){
+		public void OutputSuccess() throws InterruptedException{
 			sound.PlaySuccess();
 			display.Display("Finished in " + timer.timeElapsed() + " seconds");
 			move.MoveForward();
 			canDet.pause();
 			canRemove.pause();
+			Thread.sleep(ESCAPE_TIME);
+			move.Stop();
+			Thread.sleep(WAIT_TIME);
 			finished = true;
 		}
 
 		@Override
 		public void NotifyFailure() {
 			sound.PlayFailure();
+			move.Stop();
 			display.Display("We failed. Sorry :(");
+			try {
+				Thread.sleep(WAIT_TIME);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			finished = true;
 		}
 	};
@@ -84,9 +99,9 @@ public class RoverBuddy {
 				move.Backup();
 				double time = 0;
 				double currentTime = System.currentTimeMillis();
-				while(time < 3000){
-					Sound.beep();
-					Thread.sleep(500);
+				while(time < BACKUP_TIME){
+					sound.PlayBackup();
+					Thread.sleep(BACKUP_BEEP_INTERVAL);
 					time += System.currentTimeMillis() - currentTime;
 				}
 			} catch (InterruptedException e) {
@@ -101,12 +116,10 @@ public class RoverBuddy {
 	
 	public TimeSystemListener timeListen = new TimeSystemListener(){
 		@Override
-		public double NotifyTimeFinished() {
+		public void NotifyTimeFinished() {
 			task.DetermineComplete();
 			canDet.pause();
 			canRemove.pause();
-			finished = true;
-			return 0;
 		}
 	};
 	
@@ -168,12 +181,6 @@ public class RoverBuddy {
 		while(!finished){
 			Thread.yield();
 		}
-		try {
-			System.out.println("Can Removed Count: " + canRemovedCount());
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		EndAllThreads();
 	}
 	
@@ -193,7 +200,7 @@ public class RoverBuddy {
 	}
 	
 	public boolean objectiveMet() {
-		return (canRemovedCount() == 3);
+		return (canRemovedCount() == NUM_CAN_GOAL);
 	}
 	
 	
