@@ -29,7 +29,8 @@ public class RoverBuddy {
 	TaskStatus task;
 	TimeSystem timer;
 	CanDetection canDet;
-	
+
+	//TODO Get roverbuddy Interface Implementation class?
 	private TaskStatusListener taskListen = new TaskStatusListener(){
 
 		@Override

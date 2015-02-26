@@ -19,7 +19,6 @@ NotifyRemoved:
 	Notify all CanRemovalListeners that can was removed.
  */
 public class CanRemoval extends Thread {
-
 	private boolean paused;
 	private MovementInterface move;
 	private LightInterface light;

@@ -33,8 +33,10 @@ AddListener:
 
 public class TaskStatus extends Thread {
 	boolean taskComplete = false;
-	TimeInterface timer;
-	RoverBuddy buddy;
+	private TimeInterface timer;
+	//TODO have roverBuddy be an interface for task status?
+	//TODO have TaskStatus hold all the status stuff. Mainly Can Removal Count? Coheasion
+	private RoverBuddy buddy;
 	private ArrayList<TaskStatusListener> listener = new ArrayList<TaskStatusListener>();
 	
 	public TaskStatus(TimeInterface timer, RoverBuddy buddy){

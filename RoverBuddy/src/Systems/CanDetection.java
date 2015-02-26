@@ -29,10 +29,11 @@ import drivers.RoverBuddy;
  * Add passed in object to list of CanDetectionListeners
  */
 public class CanDetection extends Thread {
-	VisionInterface vision;
-	MovementInterface motor;
-	List<CanDetectionListener> listeners = new ArrayList<>();
-	RoverBuddy buddy;
+	private static final int CanRemovalObjective = 3;
+	private VisionInterface vision;
+	private MovementInterface motor;
+	private List<CanDetectionListener> listeners = new ArrayList<>();
+	private RoverBuddy buddy;
 	private boolean finished = false;
 	
 	public CanDetection(VisionInterface vision, MovementInterface motor, RoverBuddy buddy){
@@ -67,7 +68,7 @@ public class CanDetection extends Thread {
 	@Override
 	public void run(){
 		motor.Rotate();
-		while(buddy.canRemovedCount() < 3 && !finished){
+		while(buddy.canRemovedCount() < CanRemovalObjective && !finished){
 			if(paused)
 				Thread.yield();
 			else

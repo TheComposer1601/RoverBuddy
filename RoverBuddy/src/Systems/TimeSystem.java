@@ -32,27 +32,27 @@ public class TimeSystem extends Thread implements TimeInterface{
 	private double time;
 	private double lastTimeSeen;
 	private List<TimeSystemListener> listeners = new ArrayList<>();
-	private double timeLimit = 10000.00;
+	private static final double timeLimit = 60000.00;	
+	private boolean finishThread = false;
+
 	
 	@Override
 	public void run(){
 		time = 0;
 		lastTimeSeen = System.currentTimeMillis();
-		while(time < 10000 && !finished){
+		while(time < timeLimit && !finishThread){
 			time += System.currentTimeMillis() - lastTimeSeen;
 			lastTimeSeen = System.currentTimeMillis();
 		}
 		System.out.println("Finished");
-		FinishTime();
+		NotifyTimeFinished();
 	}
-	
-	private boolean finished = false;
 	
 	public void Stop(){
-		finished = true;
+		finishThread = true;
 	}
 
-	public void FinishTime(){
+	private void NotifyTimeFinished(){
 		for(TimeSystemListener listen: listeners){
 			listen.NotifyTimeFinished();
 		}
