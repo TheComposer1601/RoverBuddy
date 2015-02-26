@@ -22,19 +22,23 @@ import Systems.TimeSystem;
 import Systems.TimeSystem.TimeSystemListener;
 
 public class RoverBuddy {
-	
-	private int cansRemoved;
-	TaskStatus task;
-	TimeSystem timer;
-	CanDetection canDet;
-	//TODO Get roverbuddy Interface Implementation class?
+	private TaskStatus task;
+	private TimeSystem timer;
+	private CanDetection canDet;
 	private static final long BACKUP_TIME = 3000;
 	private static final long BACKUP_BEEP_INTERVAL = 500;
 	private static final long ESCAPE_TIME = 6000;
 	private static final long WAIT_TIME = 3000;
-	private static final int NUM_CAN_GOAL = 3;
+	
+	private VisionSystem vision;
+	private TouchSystem touch;
+	private MovementSystem move;
+	private LightSystem light;
+	private DisplaySystem display;
+	private SoundSystem sound;
+	private CanRemoval canRemove;
+	
 	private TaskStatusListener taskListen = new TaskStatusListener(){
-
 		@Override
 		public void NotifySuccess() {
 			try {
@@ -85,7 +89,7 @@ public class RoverBuddy {
 		public void NotifyFinishedAndRemoved() {
 			canRemove.pause();
 			canDet.resume();
-			cansRemoved ++;
+			task.removedCan();
 		}
 
 		@Override
@@ -123,34 +127,6 @@ public class RoverBuddy {
 		}
 	};
 	
-	/*
-	 * Setup:
-	 * Start CanDetection System Thread
-	 * Add RoverBuddy’s CanDetectionListener to CanDetection’s Listeners
-	 * Start TaskStatus System Thread
-	 * Add RoverBuddy’s TaskStatusListener to TaskStatus’ Listeners
-	 * Start Time System thread
-	 * Add RoverBuddy to Time Systems Listeners
-	 * Run:
-	 * While TaskStatus System is still running…
-	 * Wait
-	 */
-	
-
-/*
- * Port 1 & 2 touch
- * Port 3 sonic, sight
- * port 4 light
- */
-	
-	private VisionSystem vision;
-	private TouchSystem touch;
-	private MovementSystem move;
-	private LightSystem light;
-	private DisplaySystem display;
-	private SoundSystem sound;
-	private CanRemoval canRemove;
-	
 	public RoverBuddy(){
 		vision = new VisionSystem(new MyUltraSonic(SensorPort.S3));
 		move = new MovementSystem(new MyMovement(MotorPort.A), new MyMovement(MotorPort.B));
@@ -162,7 +138,7 @@ public class RoverBuddy {
 		timer = new TimeSystem();
 		timer.start();
 		
-		task = new TaskStatus(timer, this);
+		task = new TaskStatus(timer);
 		task.AddListener(taskListen);
 		task.start();
 
@@ -171,7 +147,7 @@ public class RoverBuddy {
 		canRemove.start();
 		canRemove.pause();
 		
-		canDet = new CanDetection(vision, move, this);
+		canDet = new CanDetection(vision, move);
 		canDet.AddListener(canDetListen);
 		canDet.start();
 	}
@@ -190,18 +166,4 @@ public class RoverBuddy {
 		timer.Stop();
 		task.Stop();
 	}
-	
-	public int canRemovedCount(){
-		return cansRemoved;
-	}
-	
-	public void RemovedCan(){
-		cansRemoved++;
-	}
-	
-	public boolean objectiveMet() {
-		return (canRemovedCount() == NUM_CAN_GOAL);
-	}
-	
-	
 }

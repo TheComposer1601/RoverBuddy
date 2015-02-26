@@ -5,7 +5,6 @@ import java.util.List;
 
 import Interfaces.MovementInterface;
 import Interfaces.VisionInterface;
-import drivers.RoverBuddy;
 
 /*
  * DetectCan:
@@ -29,17 +28,14 @@ import drivers.RoverBuddy;
  * Add passed in object to list of CanDetectionListeners
  */
 public class CanDetection extends Thread {
-	private static final int CanRemovalObjective = 3;
 	private VisionInterface vision;
 	private MovementInterface motor;
 	private List<CanDetectionListener> listeners = new ArrayList<>();
-	private RoverBuddy buddy;
 	private boolean finished = false;
 	
-	public CanDetection(VisionInterface vision, MovementInterface motor, RoverBuddy buddy){
+	public CanDetection(VisionInterface vision, MovementInterface motor){
 		this.vision = vision;
 		this.motor = motor;
-		this.buddy = buddy;
 	}
 	
 	public void DetectCan(){
@@ -68,7 +64,7 @@ public class CanDetection extends Thread {
 	@Override
 	public void run(){
 		motor.Rotate();
-		while(buddy.canRemovedCount() < CanRemovalObjective && !finished){
+		while(!finished){
 			if(paused)
 				Thread.yield();
 			else
@@ -85,8 +81,6 @@ public class CanDetection extends Thread {
 	}
 
 	public interface CanDetectionListener {
-	
 		public void NotifyDetected();
-		
 	}
 }

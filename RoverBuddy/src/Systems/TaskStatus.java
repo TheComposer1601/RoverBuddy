@@ -3,7 +3,6 @@ package Systems;
 import java.util.ArrayList;
 
 import Interfaces.TimeInterface;
-import drivers.RoverBuddy;
 
 
 /*
@@ -34,14 +33,14 @@ AddListener:
 public class TaskStatus extends Thread {
 	boolean taskComplete = false;
 	private TimeInterface timer;
-	//TODO have roverBuddy be an interface for task status?
-	//TODO have TaskStatus hold all the status stuff. Mainly Can Removal Count? Coheasion
-	private RoverBuddy buddy;
 	private ArrayList<TaskStatusListener> listener = new ArrayList<TaskStatusListener>();
+	private static final int NUM_CAN_GOAL = 3;
+	private int cansRemoved;
+	private boolean finished = false;
 	
-	public TaskStatus(TimeInterface timer, RoverBuddy buddy){
+	
+	public TaskStatus(TimeInterface timer){
 		this.timer = timer;
-		this.buddy = buddy;
 	}
 	
 	public boolean isFinished(){
@@ -61,14 +60,20 @@ public class TaskStatus extends Thread {
 		}
 	}
 	
-	private boolean finished = false;
-	
 	public void Stop(){
 		finished = true;
 	}
 	
+	public boolean objectiveMet() {
+		return (cansRemoved == NUM_CAN_GOAL);
+	}
+	
+	public void removedCan(){
+		cansRemoved++;
+	}
+	
 	public void DetermineComplete(){
-		if(buddy.objectiveMet()){
+		if(objectiveMet()){
 			taskComplete = true;
 		}
 		else{
