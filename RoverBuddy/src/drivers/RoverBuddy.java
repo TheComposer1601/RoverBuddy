@@ -191,7 +191,7 @@ public class RoverBuddy {
 		canRemove.pause();
 		task.removedCan();
 		BackUp();
-		canDet.resume();
+		canDet.resumeMyThread();
 		
 	}
 	
@@ -199,7 +199,7 @@ public class RoverBuddy {
 		currentState = State.DETECTING;
 		canRemove.pause();
 		BackUp();
-		canDet.resume();		
+		canDet.resumeMyThread();		
 	}
 	
 	public void BackUp(){
