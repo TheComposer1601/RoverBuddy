@@ -1,0 +1,13 @@
+package States;
+
+public enum State {
+	SUCCESS,
+	FAILURE,
+	DETECTING,
+	DETECTED,
+	REMOVING,
+	REMOVED,
+	NOT_REMOVED,
+	TOUCHING,
+	TIME_OVER
+}

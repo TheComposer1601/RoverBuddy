@@ -22,16 +22,13 @@ public class CanRemoval extends Thread {
 	private boolean paused;
 	private MovementInterface move;
 	private LightInterface light;
-	private SoundSystem sound;
 	private TouchInterface touch;
 	private ArrayList<CanRemovalListener> listener = new ArrayList<>();
 	private boolean finished = false;
-	private boolean foundCan = false;
 	
-	public CanRemoval(MovementInterface move, LightInterface light, SoundSystem sound, TouchInterface touch){
+	public CanRemoval(MovementInterface move, LightInterface light, TouchInterface touch){
 		this.move = move;
 		this.light = light;
-		this.sound = sound;
 		this.touch = touch;
 		paused = true;
 	}
@@ -39,38 +36,51 @@ public class CanRemoval extends Thread {
 	//TODO find out if InterruptedException is bad or not.
 	//MEH
 	public void RemoveCan() throws InterruptedException{
+		boolean foundCan = false;
 		move.MoveForward();
 		while(light.InBounds()){
 			if(touch.DetectTouch()){
-				sound.PlayTouch();
+				NotifyTouching();
 				if(!foundCan){
-					System.out.println("FoundCan true");
 					foundCan = true;
 				}
 			}
+			else{
+				NotifyNotTouching();
+			}
 		}
-		this.NotifyStartBackup();
-	}
-	
-	private void NotifyStartBackup(){
-		for(CanRemovalListener listen : listener){
-			listen.NotifyBackup(foundCan);
+		if(foundCan){
+			NotifyRemoved();
+			System.out.println("CanRemovedkudgfrfhregfhhryddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
 		}
-		this.pause();
+		else{
+			NotifyFailed();
+		}
 	}
+
 	
 	private void NotifyFailed(){
 		for(CanRemovalListener listen: listener){
 			listen.NotifyFinishedNotRemoved();
 		}
-		this.pause();
 	}
 	
 	public void NotifyRemoved(){
 		for(CanRemovalListener listen: listener){
 			listen.NotifyFinishedAndRemoved();
 		}
-		this.pause();
+	}
+	
+	public void NotifyTouching(){
+		for(CanRemovalListener listen: listener){
+			listen.NotifyCanTouching();
+		}
+	}
+	
+	public void NotifyNotTouching(){
+		for(CanRemovalListener listen: listener){
+			listen.NotifyCanNotTouching();
+		}
 	}
 	
 	@Override
@@ -84,7 +94,6 @@ public class CanRemoval extends Thread {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				paused = true;
 			}
 		}
 	}
@@ -95,8 +104,9 @@ public class CanRemoval extends Thread {
 
 	public interface CanRemovalListener {
 		public void NotifyFinishedAndRemoved();
-		public void NotifyBackup(boolean foundCan);
 		public void NotifyFinishedNotRemoved();
+		public void NotifyCanTouching();
+		public void NotifyCanNotTouching();
 	}
 
 	public void pause() {
@@ -109,17 +119,5 @@ public class CanRemoval extends Thread {
 	
 	public void Stop(){
 		finished = true;
-	}
-
-	public void finishBackup() {
-		if(foundCan){
-			foundCan = false;
-			System.out.println("Removed");
-			NotifyRemoved();
-		}
-		else{
-			System.out.println("Failed");
-			NotifyFailed();
-		}
 	}
 }

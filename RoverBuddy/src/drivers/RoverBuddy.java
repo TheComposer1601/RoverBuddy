@@ -12,6 +12,7 @@ import Sensors.MovementSystem;
 import Sensors.SoundSystem;
 import Sensors.TouchSystem;
 import Sensors.VisionSystem;
+import States.State;
 import Systems.CanDetection;
 import Systems.CanDetection.CanDetectionListener;
 import Systems.CanRemoval;
@@ -37,95 +38,55 @@ public class RoverBuddy {
 	private DisplaySystem display;
 	private SoundSystem sound;
 	private CanRemoval canRemove;
+	private State currentState = State.DETECTING;
 	
 	private TaskStatusListener taskListen = new TaskStatusListener(){
 		@Override
 		public void NotifySuccess() {
-			try {
-				this.OutputSuccess();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		public void OutputSuccess() throws InterruptedException{
-			sound.PlaySuccess();
-			display.Display("Finished in " + timer.timeElapsed() + " seconds");
-			move.MoveForward();
-			canDet.pause();
-			canRemove.pause();
-			Thread.sleep(ESCAPE_TIME);
-			move.Stop();
-			Thread.sleep(WAIT_TIME);
-			finished = true;
+			currentState = State.SUCCESS;
 		}
 
 		@Override
 		public void NotifyFailure() {
-			sound.PlayFailure();
-			move.Stop();
-			display.Display("We failed. Sorry :(");
-			try {
-				Thread.sleep(WAIT_TIME);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			finished = true;
+			currentState = State.FAILURE;
 		}
 	};
 	
 	private CanDetectionListener canDetListen = new CanDetectionListener(){
 		@Override
 		public void NotifyDetected() {
-			System.out.println("Found Can");
-			canDet.pause();
-			System.out.println("Remove starting");
-			canRemove.resume();
+			currentState = State.DETECTED;
 		}
 	};
 	
 	private CanRemovalListener removeListen = new CanRemovalListener(){
 		@Override
 		public void NotifyFinishedAndRemoved() {
-			canRemove.pause();
-			canDet.resume();
-			task.removedCan();
+			currentState = State.REMOVED;
 		}
 
 		@Override
 		public void NotifyFinishedNotRemoved() {
-			canRemove.pause();
-			canDet.resume();
+			currentState = State.NOT_REMOVED;
 		}
-		
-		public void NotifyBackup(boolean foundCan){
-			try{
-				move.Backup();
-				double time = 0;
-				double currentTime = System.currentTimeMillis();
-				while(time < BACKUP_TIME){
-					sound.PlayBackup();
-					Thread.sleep(BACKUP_BEEP_INTERVAL);
-					time += System.currentTimeMillis() - currentTime;
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} finally{
-				move.Stop();
-				System.out.println("Finish Backup");
-				canRemove.finishBackup();
-			}
+		@Override
+		public void NotifyCanTouching(){
+			currentState = State.TOUCHING;
+		}
+		@Override
+		public void NotifyCanNotTouching(){
+			currentState = State.DETECTING;
 		}
 	};
 	
 	public TimeSystemListener timeListen = new TimeSystemListener(){
 		@Override
 		public void NotifyTimeFinished() {
-			task.DetermineComplete();
-			canDet.pause();
-			canRemove.pause();
+			currentState = State.TIME_OVER;
 		}
 	};
+	
+	
 	
 	public RoverBuddy(){
 		vision = new VisionSystem(new MyUltraSonic(SensorPort.S3));
@@ -136,13 +97,14 @@ public class RoverBuddy {
 		sound = new SoundSystem();
 		
 		timer = new TimeSystem();
+		timer.AddListener(timeListen);
 		timer.start();
 		
-		task = new TaskStatus(timer);
+		task = new TaskStatus();
 		task.AddListener(taskListen);
 		task.start();
 
-		canRemove = new CanRemoval(move, light, sound, touch);
+		canRemove = new CanRemoval(move, light, touch);
 		canRemove.addListener(removeListen);
 		canRemove.start();
 		canRemove.pause();
@@ -155,9 +117,114 @@ public class RoverBuddy {
 	private boolean finished = false;
 	public void run(){
 		while(!finished){
-			Thread.yield();
+			switch(currentState){
+			case DETECTING:
+				break;
+			case DETECTED:
+				CanDetected();
+				break;
+			case REMOVING:
+				break;
+			case REMOVED:
+				CanRemoved();
+				break;
+			case NOT_REMOVED:
+				CanNotRemoved();
+				break;
+			case TOUCHING:
+				CanTouching();
+				break;
+			case TIME_OVER:
+				TimeFinished();
+				break;
+			case SUCCESS:
+				try {
+					OutputSuccess();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				EndAllThreads();
+				break;
+			case FAILURE:
+				try {
+					OutputFailure();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				EndAllThreads();
+				break;
+			}
 		}
 		EndAllThreads();
+	}
+	
+	public void OutputSuccess() throws InterruptedException{
+		canDet.pause();
+		canRemove.pause();
+		sound.PlaySuccess();
+		display.Display("Finished in " + timer.timeElapsed() + " seconds");
+		move.MoveForward();	
+		Thread.sleep(ESCAPE_TIME);
+		move.Stop();
+		Thread.sleep(WAIT_TIME);
+		finished = true;
+	}
+	
+	public void OutputFailure() throws InterruptedException{
+		sound.PlayFailure();
+		move.Stop();
+		display.Display("We failed. Sorry :(");
+		Thread.sleep(WAIT_TIME);
+		finished = true;
+	}
+	
+	public void CanDetected(){
+		currentState = State.REMOVING;
+		System.out.println("Found Can");
+		canDet.pause();
+		System.out.println("Remove starting");
+		canRemove.resume();	
+	}
+	
+	public void CanRemoved(){
+		currentState = State.DETECTING;
+		canRemove.pause();
+		task.removedCan();
+		BackUp();
+		canDet.resume();
+		
+	}
+	
+	public void CanNotRemoved(){
+		currentState = State.DETECTING;
+		canRemove.pause();
+		BackUp();
+		canDet.resume();		
+	}
+	
+	public void BackUp(){
+		try{
+			move.Backup();
+			double time = 0;
+			double currentTime = System.currentTimeMillis();
+			while(time < BACKUP_TIME){
+				sound.PlayBackup();
+				Thread.sleep(BACKUP_BEEP_INTERVAL);
+				time += System.currentTimeMillis() - currentTime;
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void CanTouching(){
+		sound.PlayTouch();
+	}
+	
+	public void TimeFinished(){
+		task.outOfTime();
+		canDet.pause();
+		canRemove.pause();
 	}
 	
 	private void EndAllThreads(){

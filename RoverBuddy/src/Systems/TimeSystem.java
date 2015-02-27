@@ -39,11 +39,10 @@ public class TimeSystem extends Thread implements TimeInterface{
 	public void run(){
 		time = 0;
 		lastTimeSeen = System.currentTimeMillis();
-		while(time < TIME_LIMIT && !finishThread){
+		while(stillRunning()){
 			time += System.currentTimeMillis() - lastTimeSeen;
 			lastTimeSeen = System.currentTimeMillis();
 		}
-		System.out.println("Finished");
 		NotifyTimeFinished();
 	}
 	
@@ -59,6 +58,10 @@ public class TimeSystem extends Thread implements TimeInterface{
 	
 	public void AddListener(TimeSystemListener listen){
 		listeners.add(listen);
+	}
+	
+	private boolean stillRunning(){
+		return time < TIME_LIMIT && !finishThread;
 	}
 	
 	public boolean TimeOver(){

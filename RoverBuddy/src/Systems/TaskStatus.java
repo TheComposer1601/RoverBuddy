@@ -32,25 +32,29 @@ AddListener:
 
 public class TaskStatus extends Thread {
 	boolean taskComplete = false;
-	private TimeInterface timer;
+	boolean timeOver = false;
 	private ArrayList<TaskStatusListener> listener = new ArrayList<TaskStatusListener>();
 	private static final int NUM_CAN_GOAL = 3;
 	private int cansRemoved;
 	private boolean finished = false;
 	
 	
-	public TaskStatus(TimeInterface timer){
-		this.timer = timer;
+	public TaskStatus(){
 	}
 	
 	public boolean isFinished(){
 		return taskComplete;
 	}
 	
+	public void outOfTime(){
+		timeOver = true;
+	}
+	
 	@Override
 	public void run(){
-		while(!timer.TimeOver() && !taskComplete && !finished){
+		while(stillRunning()){
 			DetermineComplete();
+			//System.out.println("Cans Removed: " + cansRemoved);
 		}
 		if(taskComplete){
 			NotifySuccess();
@@ -58,6 +62,10 @@ public class TaskStatus extends Thread {
 		else{
 			NotifyFailure();
 		}
+	}
+	
+	private boolean stillRunning(){
+		return !timeOver && !taskComplete && !finished;
 	}
 	
 	public void Stop(){
