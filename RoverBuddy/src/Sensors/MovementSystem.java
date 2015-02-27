@@ -7,7 +7,7 @@ public class MovementSystem implements MovementInterface{
 	private MovementLejosInterface motor1;
 	private MovementLejosInterface motor2;
 	private static final int STOP_SPEED = 0;
-	private static final int ROTATE_SPEED = 65;
+	private static final int ROTATE_SPEED = 70;
 	private static final int FORWARD_SPEED = 85;
 	private static final int BACKUP_SPEED = 90;
 	
