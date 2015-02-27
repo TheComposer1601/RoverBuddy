@@ -1,22 +1,3 @@
 INDEX VERSION 1.126+C:\Users\Ryan Garcia\Documents\RoverBuddy\RoverBuddy\.metadata\.plugins\org.eclipse.jdt.core
-1571712741.index
-2094789591.index
-3700886420.index
-4142789474.index
-3699641884.index
-3872267451.index
+3197245694.index
 2245125605.index
-3579399264.index
-970626710.index
-2541245157.index
-1431365861.index
-2938872725.index
-4275448310.index
-522689238.index
-559390872.index
-1836556245.index
-260295031.index
-1825659293.index
-3296867124.index
-4153435824.index
-2326175388.index

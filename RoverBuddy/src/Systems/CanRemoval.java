@@ -27,11 +27,19 @@ public class CanRemoval extends Thread {
 	private boolean finished = false;
 
 	public CanRemoval(MovementInterface move, LightInterface light,
-			TouchInterface touch) {
+			TouchInterface touch) throws NullPointerException{
+		if(NullSystem(move, light, touch)){
+			throw new NullPointerException();
+		}
 		this.move = move;
 		this.light = light;
 		this.touch = touch;
 		paused = true;
+	}
+
+	private boolean NullSystem(MovementInterface move, LightInterface light,
+			TouchInterface touch) {
+		return move == null || light == null || touch == null;
 	}
 
 	public void RemoveCan() {
@@ -97,7 +105,8 @@ public class CanRemoval extends Thread {
 	}
 
 	public void addListener(CanRemovalListener listen) {
-		this.listener.add(listen);
+		if(listen != null) listener.add(listen);
+		else throw new NullPointerException();
 	}
 
 	public interface CanRemovalListener {
@@ -114,7 +123,7 @@ public class CanRemoval extends Thread {
 		paused = true;
 	}
 
-	public void resume() {
+	public void resumeThread() {
 		paused = false;
 	}
 

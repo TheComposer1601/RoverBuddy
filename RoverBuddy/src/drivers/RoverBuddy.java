@@ -183,7 +183,7 @@ public class RoverBuddy {
 			currentState = State.REMOVING;
 		}
 		canDet.pause();
-		canRemove.resume();	
+		canRemove.resumeThread();	
 	}
 	
 	public void CanRemoved(){

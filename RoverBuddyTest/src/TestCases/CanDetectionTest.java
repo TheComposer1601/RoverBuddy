@@ -129,9 +129,9 @@ public class CanDetectionTest {
 			canDet.Stop();
 
 
-			assertTrue(true);
-		} catch(NullPointerException e){
 			fail();
+		} catch(NullPointerException e){
+			assertTrue(true);
 		}
 	}
 	

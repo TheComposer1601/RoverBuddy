@@ -5,8 +5,6 @@ import java.util.List;
 
 import Interfaces.MovementInterface;
 import Interfaces.VisionInterface;
-import Sensors.EmptyMotorSystem;
-import Sensors.EmptyVisionSystem;
 
 /*
  * DetectCan:
@@ -36,10 +34,17 @@ public class CanDetection extends Thread {
 	private boolean finished = false;
 	
 	public CanDetection(VisionInterface vision, MovementInterface motor) throws NullPointerException{
-		this.vision = (vision != null)? vision : new EmptyVisionSystem();
-		this.motor = (motor != null)? motor : new EmptyMotorSystem();
+		if(NullSystem(vision, motor)){
+			throw new NullPointerException();
+		}
+		this.vision = vision;
+		this.motor = motor;
 	}
 	
+	private boolean NullSystem(VisionInterface vision, MovementInterface motor) {
+		return vision == null || motor == null;
+	}
+
 	public void DetectCan(){
 		if(vision.DetectCan()){
 			myNotifyDetected();

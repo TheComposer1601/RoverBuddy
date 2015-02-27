@@ -870,3 +870,81 @@ user global configuration and to define the default location to store repositori
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.mountainminds.eclemma.core 4 5013 2015-02-27 04:43:06.624
+!MESSAGE Error while dumping coverage data (code 5013).
+!STACK 0
+java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:189)
+	at java.net.SocketInputStream.read(SocketInputStream.java:121)
+	at java.net.SocketInputStream.read(SocketInputStream.java:203)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at org.jacoco.core.data.ExecutionDataReader.read(ExecutionDataReader.java:82)
+	at com.mountainminds.eclemma.internal.core.MemoryExecutionDataSource.readFrom(MemoryExecutionDataSource.java:68)
+	at com.mountainminds.eclemma.internal.core.launching.AgentServer.run(AgentServer.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.mountainminds.eclemma.core 4 5013 2015-02-27 04:43:13.171
+!MESSAGE Error while dumping coverage data (code 5013).
+!STACK 0
+java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:189)
+	at java.net.SocketInputStream.read(SocketInputStream.java:121)
+	at java.net.SocketInputStream.read(SocketInputStream.java:203)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at org.jacoco.core.data.ExecutionDataReader.read(ExecutionDataReader.java:82)
+	at com.mountainminds.eclemma.internal.core.MemoryExecutionDataSource.readFrom(MemoryExecutionDataSource.java:68)
+	at com.mountainminds.eclemma.internal.core.launching.AgentServer.run(AgentServer.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.mountainminds.eclemma.core 4 5013 2015-02-27 04:44:54.000
+!MESSAGE Error while dumping coverage data (code 5013).
+!STACK 0
+java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:189)
+	at java.net.SocketInputStream.read(SocketInputStream.java:121)
+	at java.net.SocketInputStream.read(SocketInputStream.java:203)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at org.jacoco.core.data.ExecutionDataReader.read(ExecutionDataReader.java:82)
+	at com.mountainminds.eclemma.internal.core.MemoryExecutionDataSource.readFrom(MemoryExecutionDataSource.java:68)
+	at com.mountainminds.eclemma.internal.core.launching.AgentServer.run(AgentServer.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.mountainminds.eclemma.core 4 5013 2015-02-27 04:47:01.044
+!MESSAGE Error while dumping coverage data (code 5013).
+!STACK 0
+java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:189)
+	at java.net.SocketInputStream.read(SocketInputStream.java:121)
+	at java.net.SocketInputStream.read(SocketInputStream.java:203)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at org.jacoco.core.data.ExecutionDataReader.read(ExecutionDataReader.java:82)
+	at com.mountainminds.eclemma.internal.core.MemoryExecutionDataSource.readFrom(MemoryExecutionDataSource.java:68)
+	at com.mountainminds.eclemma.internal.core.launching.AgentServer.run(AgentServer.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.mountainminds.eclemma.core 4 5013 2015-02-27 04:47:40.635
+!MESSAGE Error while dumping coverage data (code 5013).
+!STACK 0
+java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:189)
+	at java.net.SocketInputStream.read(SocketInputStream.java:121)
+	at java.net.SocketInputStream.read(SocketInputStream.java:203)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at org.jacoco.core.data.ExecutionDataReader.read(ExecutionDataReader.java:82)
+	at com.mountainminds.eclemma.internal.core.MemoryExecutionDataSource.readFrom(MemoryExecutionDataSource.java:68)
+	at com.mountainminds.eclemma.internal.core.launching.AgentServer.run(AgentServer.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.mountainminds.eclemma.core 4 5013 2015-02-27 04:51:46.397
+!MESSAGE Error while dumping coverage data (code 5013).
+!STACK 0
+java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:189)
+	at java.net.SocketInputStream.read(SocketInputStream.java:121)
+	at java.net.SocketInputStream.read(SocketInputStream.java:203)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at org.jacoco.core.data.ExecutionDataReader.read(ExecutionDataReader.java:82)
+	at com.mountainminds.eclemma.internal.core.MemoryExecutionDataSource.readFrom(MemoryExecutionDataSource.java:68)
+	at com.mountainminds.eclemma.internal.core.launching.AgentServer.run(AgentServer.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
