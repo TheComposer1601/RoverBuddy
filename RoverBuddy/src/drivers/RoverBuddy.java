@@ -179,13 +179,17 @@ public class RoverBuddy {
 	}
 	
 	public void CanDetected(){
-		currentState = State.REMOVING;
+		if(currentState != State.TIME_OVER){
+			currentState = State.REMOVING;
+		}
 		canDet.pause();
 		canRemove.resume();	
 	}
 	
 	public void CanRemoved(){
-		currentState = State.DETECTING;
+		if(currentState != State.TIME_OVER){
+			currentState = State.DETECTING;
+		}
 		canRemove.pause();
 		task.removedCan();
 		BackUp();
@@ -194,7 +198,9 @@ public class RoverBuddy {
 	}
 	
 	public void CanNotRemoved(){
-		currentState = State.DETECTING;
+		if(currentState != State.TIME_OVER){
+			currentState = State.DETECTING;
+		}
 		canRemove.pause();
 		BackUp();
 		canDet.resumeMyThread();		
