@@ -19,21 +19,25 @@ public class MovementSystem implements MovementInterface{
 		motor2 = m2;
 	}
 	public void Rotate(){
+//		System.out.println("Rotate");
 		motor1.controlMotor(ROTATE_SPEED, FORWARD_MODE);
 		motor2.controlMotor(ROTATE_SPEED, BACKWARD_MODE);
 	}
 	
 	public void Stop(){
+//		System.out.println("Stop");
 		motor1.controlMotor(STOP_SPEED, STOP_MODE);
 		motor2.controlMotor(STOP_SPEED, STOP_MODE);
 	}
 	
 	public void MoveForward(){
+//		System.out.println("Forward");
 		motor1.controlMotor(FORWARD_SPEED, FORWARD_MODE);
 		motor2.controlMotor(FORWARD_SPEED, FORWARD_MODE);
 	}
 	
 	public void Backup(){
+//		System.out.println("Backup");
 		motor1.controlMotor(BACKUP_SPEED, BACKWARD_MODE);
 		motor2.controlMotor(BACKUP_SPEED, BACKWARD_MODE);
 	}

@@ -51,11 +51,11 @@ public class CanRemoval extends Thread {
 		}
 		if(foundCan){
 			NotifyRemoved();
-			System.out.println("CanRemovedkudgfrfhregfhhryddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
 		}
 		else{
 			NotifyFailed();
 		}
+		this.pause();
 	}
 
 	

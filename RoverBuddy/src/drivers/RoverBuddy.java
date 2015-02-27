@@ -26,7 +26,7 @@ public class RoverBuddy {
 	private TaskStatus task;
 	private TimeSystem timer;
 	private CanDetection canDet;
-	private static final long BACKUP_TIME = 3000;
+	private static final long BACKUP_TIME = 2000;
 	private static final long BACKUP_BEEP_INTERVAL = 500;
 	private static final long ESCAPE_TIME = 6000;
 	private static final long WAIT_TIME = 3000;
@@ -75,7 +75,7 @@ public class RoverBuddy {
 		}
 		@Override
 		public void NotifyCanNotTouching(){
-			currentState = State.DETECTING;
+			currentState = State.REMOVING;
 		}
 	};
 	
@@ -180,9 +180,7 @@ public class RoverBuddy {
 	
 	public void CanDetected(){
 		currentState = State.REMOVING;
-		System.out.println("Found Can");
 		canDet.pause();
-		System.out.println("Remove starting");
 		canRemove.resume();	
 	}
 	
