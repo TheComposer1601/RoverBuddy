@@ -47,6 +47,7 @@ public class CanRemoval extends Thread {
 			}
 			else{
 				NotifyNotTouching();
+				foundCan = false;
 			}
 		}
 		if(foundCan){

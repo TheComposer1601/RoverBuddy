@@ -33,7 +33,7 @@ public class TimeSystem extends Thread implements TimeInterface{
 	private double lastTimeSeen;
 	private List<TimeSystemListener> listeners = new ArrayList<>();
 	private boolean finishThread = false;
-	private static final double TIME_LIMIT = 10000.00;
+	private static final double TIME_LIMIT = 60000.00;
 	
 	@Override
 	public void run(){

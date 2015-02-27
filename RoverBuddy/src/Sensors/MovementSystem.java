@@ -14,9 +14,9 @@ public class MovementSystem implements MovementInterface{
 	private static final int FORWARD_MODE = 1;
 	private static final int BACKWARD_MODE = 2;
 	private static final int STOP_MODE = 3;
-	public MovementSystem(MovementLejosInterface m1, MovementLejosInterface m2){
-		motor1 = m1;
-		motor2 = m2;
+	public MovementSystem(MovementLejosInterface move1, MovementLejosInterface move2){
+		motor1 = move1;
+		motor2 = move2;
 	}
 	public void Rotate(){
 //		System.out.println("Rotate");
