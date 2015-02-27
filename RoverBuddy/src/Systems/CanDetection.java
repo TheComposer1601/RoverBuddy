@@ -5,6 +5,8 @@ import java.util.List;
 
 import Interfaces.MovementInterface;
 import Interfaces.VisionInterface;
+import Sensors.EmptyMotorSystem;
+import Sensors.EmptyVisionSystem;
 
 /*
  * DetectCan:
@@ -33,9 +35,9 @@ public class CanDetection extends Thread {
 	private List<CanDetectionListener> listeners = new ArrayList<>();
 	private boolean finished = false;
 	
-	public CanDetection(VisionInterface vision, MovementInterface motor){
-		this.vision = vision;
-		this.motor = motor;
+	public CanDetection(VisionInterface vision, MovementInterface motor) throws NullPointerException{
+		this.vision = (vision != null)? vision : new EmptyVisionSystem();
+		this.motor = (motor != null)? motor : new EmptyMotorSystem();
 	}
 	
 	public void DetectCan(){
@@ -56,7 +58,7 @@ public class CanDetection extends Thread {
 		paused = true;
 	}
 	
-	public void resume(){
+	public void resumeMyThread(){
 		motor.Rotate();
 		paused = false;
 	}
@@ -76,8 +78,9 @@ public class CanDetection extends Thread {
 		finished = true;
 	}
 	
-	public void AddListener(CanDetectionListener listen){
-		listeners.add(listen);
+	public void AddListener(CanDetectionListener listen) throws NullPointerException{
+		if(listen != null) listeners.add(listen);
+		else throw new NullPointerException();
 	}
 
 	public interface CanDetectionListener {

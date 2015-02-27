@@ -3,4 +3,7 @@
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="lejos.nxt.Sound"/>
 <fullyQualifiedTypeName name="lejos.util.Delay"/>
+<fullyQualifiedTypeName name="Sensors.VisionSystem"/>
+<fullyQualifiedTypeName name="SensorWrapperInterface.MovementLejosInterface"/>
+<fullyQualifiedTypeName name="lejos.nxt.MotorPort"/>
 </qualifiedTypeNameHistroy>

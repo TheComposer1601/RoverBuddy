@@ -7,3 +7,14 @@
 1424974761054	Rename field 'finished'
 1424974787965	Rename method 'FinishTime'
 1424981884692	Delete element
+1424982900434	Move compilation unit
+1424983895077	Rename type 'MotorTest'
+1424983907435	Rename type 'VisionTest'
+1424983936450	Rename type 'UltraSonicTest'
+1424986079169	Delete element
+1424986345040	Delete element
+1424986384247	Delete element
+1424987205320	Move package
+1424993373168	Delete elements
+1424993773892	Delete elements
+1424994892864	Delete element
