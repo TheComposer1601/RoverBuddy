@@ -73,7 +73,7 @@ public class TimeSystem extends Thread implements TimeInterface{
 	}
 	
 	public double timeElapsed(){
-		return time;
+		return time/1000;
 	}
 
 	public interface TimeSystemListener {

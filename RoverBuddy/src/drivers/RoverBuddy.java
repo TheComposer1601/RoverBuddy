@@ -28,7 +28,7 @@ public class RoverBuddy {
 	private CanDetection canDet;
 	private static final long BACKUP_TIME = 2000;
 	private static final long BACKUP_BEEP_INTERVAL = 500;
-	private static final long ESCAPE_TIME = 3000;
+	private static final long ESCAPE_TIME = 5000;
 	private static final long WAIT_TIME = 3000;
 	
 	private VisionSystem vision;

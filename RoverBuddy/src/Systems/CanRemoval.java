@@ -25,6 +25,8 @@ public class CanRemoval extends Thread {
 	private TouchInterface touch;
 	private ArrayList<CanRemovalListener> listener = new ArrayList<>();
 	private boolean finished = false;
+	private static final int EXTRA_PUSH_TIME = 250;
+	private static final int NOT_PUSHED_COUNTDOWN = 1000;
 
 	public CanRemoval(MovementInterface move, LightInterface light,
 			TouchInterface touch) throws NullPointerException{
@@ -45,20 +47,28 @@ public class CanRemoval extends Thread {
 	public void RemoveCan() {
 		boolean foundCan = false;
 		move.MoveForward();
+		int countdown = 0;
 		while (light.InBounds()) {
 			if (touch.DetectTouch()) {
 				NotifyTouching();
+				if(countdown != 0){
+					countdown = 0;
+				}
 				if (!foundCan) {
 					foundCan = true;
 				}
 			} else {
 				NotifyNotTouching();
-				foundCan = false;
+				countdown++;
+				if(countdown > NOT_PUSHED_COUNTDOWN){
+					foundCan = false;
+					countdown = 0;
+				}
 			}
 		}
 		if (foundCan) {
 			try {
-				Thread.sleep(500);
+				Thread.sleep(EXTRA_PUSH_TIME);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -4,7 +4,7 @@ import Interfaces.LightInterface;
 import SensorWrapperInterface.LightSensorInterface;
 
 public class LightSystem extends Thread implements LightInterface{
-	private static final int BLACK_LINE = 97;
+	private static final int BLACK_LINE = 80;
 	private LightSensorInterface lightSensor;
 	public LightSystem(LightSensorInterface light){
 		lightSensor = light;

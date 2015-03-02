@@ -7,7 +7,7 @@ import Sensors.DisplaySystem;
 
 public class MyUltraSonic implements UltraSonicInterface{
 	public UltrasonicSensor sense;
-	private static final int MAX_DISTANCE = 60;
+	private static final int MAX_DISTANCE = 70;
 	public MyUltraSonic(SensorPort port) {
 		sense = new UltrasonicSensor(port);
 		sense.continuous();
@@ -21,7 +21,9 @@ public class MyUltraSonic implements UltraSonicInterface{
 	public boolean GetDistance() {
 		boolean inRange = false;
 		this.ping();
-		if(sense.getDistance() < MAX_DISTANCE){
+		int distance = sense.getDistance();
+		System.out.println(distance);
+		if(distance < MAX_DISTANCE){
 			inRange = true;
 		}
 		return inRange;
