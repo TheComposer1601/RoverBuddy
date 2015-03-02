@@ -27,6 +27,7 @@ public class CanDetectionTest {
 	public void testDetectCan() throws InterruptedException {
 		canDet = new CanDetection(vision, move);
 		foundCan = false;
+		assertFalse(foundCan);
 		canDet.AddListener(listen);
 		canDet.start();
 		while(!foundCan){
@@ -39,6 +40,7 @@ public class CanDetectionTest {
 	public void testPause() throws InterruptedException{
 		canDet = new CanDetection(vision, move);
 		foundCan = false;
+		assertFalse(foundCan);
 		canDet.AddListener(listen);
 		canDet.pause();
 		canDet.start();
@@ -66,6 +68,7 @@ public class CanDetectionTest {
 		canDet = new CanDetection(vision, move);
 		foundCan = false;
 		foundRotate = false;
+		assertFalse(foundRotate);
 		canDet.AddListener(listen);
 		canDet.start();
 		while(!foundCan){}
@@ -78,6 +81,7 @@ public class CanDetectionTest {
 		canDet = new CanDetection(vision, move);
 		foundCan = false;
 		foundRotate = false;
+		assertFalse(foundCan);
 		canDet.AddListener(listen);
 		canDet.start();
 		while(!foundCan){}
@@ -92,6 +96,7 @@ public class CanDetectionTest {
 		canDet = new CanDetection(vision, move);
 		foundCan = false;
 		foundRotate = false;
+		assertFalse(foundCan);
 		canDet.AddListener(new CanDetectionListener(){
 			@Override
 			public void NotifyDetected() {

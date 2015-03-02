@@ -41,6 +41,7 @@ public class CanRemovalTest {
 		light = new LightTestClass();
 		touch = new TouchTestClass();
 		CanRemoval canRem = new CanRemoval(move, light, touch);
+		assertFalse(canRemoved);
 		canRem.addListener(listener);
 		canRem.start();
 		canRem.resumeThread();
@@ -56,9 +57,11 @@ public class CanRemovalTest {
 	@Test
 	public void canNotRemoveTest(){
 		finished = false;
+		canRemoved = true;
 		move = new MoveTestClass();
 		light = new LightTestClass();
 		touch = new TouchTestClass();
+		assertTrue(canRemoved);
 		CanRemoval canRem = new CanRemoval(move, light, touch);
 		canRem.addListener(listener);
 		canRem.start();
@@ -77,6 +80,7 @@ public class CanRemovalTest {
 		move = new MoveTestClass();
 		light = new LightTestClass();
 		touch = new TouchTestClass();
+		assertFalse(canTouched);
 		CanRemoval canRem = new CanRemoval(move, light, touch);
 		canRem.addListener(listener);
 		canRem.start();
@@ -87,9 +91,11 @@ public class CanRemovalTest {
 	}
 	@Test
 	public void canNotTouchTest(){
+		canTouched = true;
 		move = new MoveTestClass();
 		light = new LightTestClass();
 		touch = new TouchTestClass();
+		assertTrue(canTouched);
 		CanRemoval canRem = new CanRemoval(move, light, touch);
 		canRem.addListener(listener);
 		canRem.start();

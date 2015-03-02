@@ -948,3 +948,16 @@ java.net.SocketException: Connection reset
 	at com.mountainminds.eclemma.internal.core.MemoryExecutionDataSource.readFrom(MemoryExecutionDataSource.java:68)
 	at com.mountainminds.eclemma.internal.core.launching.AgentServer.run(AgentServer.java:114)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY com.mountainminds.eclemma.core 4 5013 2015-03-02 00:13:50.885
+!MESSAGE Error while dumping coverage data (code 5013).
+!STACK 0
+java.net.SocketException: Connection reset
+	at java.net.SocketInputStream.read(SocketInputStream.java:189)
+	at java.net.SocketInputStream.read(SocketInputStream.java:121)
+	at java.net.SocketInputStream.read(SocketInputStream.java:203)
+	at java.io.DataInputStream.readByte(DataInputStream.java:265)
+	at org.jacoco.core.data.ExecutionDataReader.read(ExecutionDataReader.java:82)
+	at com.mountainminds.eclemma.internal.core.MemoryExecutionDataSource.readFrom(MemoryExecutionDataSource.java:68)
+	at com.mountainminds.eclemma.internal.core.launching.AgentServer.run(AgentServer.java:114)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
